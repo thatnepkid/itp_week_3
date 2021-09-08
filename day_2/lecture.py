@@ -9,11 +9,11 @@
 
 #Begin by importing the os module to the top of your file, like so:
 import os
-
+#(openpyxl must also be imported & workbook created, but they are not in this example for the sake of simplicity).
 from openpyxl.workbook import workbook
 
 os.getcwd() #will return the current working directory.
-os.chdir() #will change the current working directory.
+os.chdir() #will change the current working directory.  <---- PAY SPECIAL ATTENTION TO THIS ONE
 
 #Review--> Absolute paths begin with the root folder, relative paths do not.
 #The . folder represents "this folder", the .. folder represents "the parent folder".
@@ -38,8 +38,34 @@ my_workbook.get_sheet_names() # Result -->  ['Sheet']
 #Notice the correllation between lines 37 and 39 ^^^
 my_sheet = my_workbook.get_sheet_by_name('Sheet')
 
-#-------INSERTING ROWS & COLUMNS--------
+#How to create a NEW, EMPTY Excel document:
+from openpyxl import Workbook
+my_new_workbook = Workbook()
+#This workbook will always be created with one sheet, which can be accessed using Workbook.active property:
+my_new_worksheet = my_new_workbook.active  #  This value is set to 0 by default
 
+
+#REVIEW SECTION ON SHEETS --> 
+# Once you gave a worksheet a name, you can get it as a key of the workbook:
+
+ws3 = wb["New Title"]
+
+# You can review the names of all worksheets of the workbook with the Workbook.sheetname attribute
+print(wb.sheetnames)  #Result-->  ['Sheet2', 'New Title', 'Sheet1']
+
+# You can loop through worksheets
+for sheet in wb:
+    print(sheet.title)
+
+# You can create copies of worksheets within a single workbook:
+Workbook.copy_worksheet() method:
+
+source = wb.active
+target = wb.copy_worksheet(source)
+#---> END OF REVIEW SECTION <----
+
+
+#-------INSERTING ROWS & COLUMNS--------
 #Much of the following info is pulled directly from the OpenPyXL official documentation
 
 #The following openpyxl methods will allow you to insert & delete rows and columns 
@@ -59,6 +85,7 @@ my_sheet.delete_cols(6, 3)
 my_sheet.move_range("D4:F10, rows=1, cols=2")
 #This will move the cells in the range D4:F10 up one row, and right two columns. The cells will overwrite any existing cells.
 
+#---------MANAGING SHEETS AND CELLS------------
 #Review--> Access a cell value from the Excel sheet
 my_sheet['A1'].value  # Result is 'None' on a black Excel document
 
@@ -67,12 +94,6 @@ my_sheet['A1'] = 37
 my_sheet['A2'] = 'Pears'
 #Because we know that when we create a blank Excel document, the starting value is 'None', we can clear cell values by setting them to the Python keyword: None 
 
-#How to create a NEW, EMPTY Excel document:
-from openpyxl import Workbook
-my_new_workbook = Workbook()
-#This workbook will always be created with one sheet, which can be accessed using Workbook.active property:
-my_new_worksheet = my_new_workbook.active  #  This value is set to 0 by default
-
 #How to create a NEW, EMPTY Excel document sheet:
 my_newest_worksheet1 = my_new_workbook.create_sheet("Mysheet")  # insert at the end of the sheets (default)
 #or
@@ -80,11 +101,12 @@ my_newest_worksheet2 = my_new_workbook.create_sheet("Mysheet", 0)  # insert at f
 #or
 my_newest_worksheet3 = my_new_workbook.create_sheet("Mysheet", -1)  # insert at penultimate position
 
-
-
-#Write Edit Delete Excel
-#Write new sheets and a file
-
+#-------THE REASON WE TALKED ABOUT THE OS MODULE:  ------
+#We need to use the os module to access files on our machine so that we may create, save, and delete Excel files
+import os
+os.chdir('/Users/tylerpritchard/Desktop/VIT/itp_week_3/day_2')
+my_new_workbook.save('my_new_filename.xlsx')
+#It is good to save your spreadsheets as new files, as opposed to writing over old spreadsheets and risking the loss of your work.
 
 #RECAP:
 #You can view and modify a sheet's name with its "title" member variable.
