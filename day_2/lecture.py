@@ -46,12 +46,16 @@ my_new_worksheet = my_new_workbook.active  #  This value is set to 0 by default
 
 
 #REVIEW SECTION ON SHEETS --> 
-# Once you gave a worksheet a name, you can get it as a key of the workbook:
 
+wb.create_sheet() # Add a new sheet.
+#<Worksheet "Sheet1">
+
+# Once you gave a worksheet a name, you can get it as a key of the workbook:
 ws3 = wb["New Title"]
 
 # You can review the names of all worksheets of the workbook with the Workbook.sheetname attribute
 print(wb.sheetnames)  #Result-->  ['Sheet2', 'New Title', 'Sheet1']
+
 
 # You can loop through worksheets
 for sheet in wb:
@@ -108,7 +112,16 @@ os.chdir('/Users/tylerpritchard/Desktop/VIT/itp_week_3/day_2')
 my_new_workbook.save('my_new_filename.xlsx')
 #It is good to save your spreadsheets as new files, as opposed to writing over old spreadsheets and risking the loss of your work.
 
+#OpenPyXL provides another way to save your workbook:
+my_workbook.save('/Users/tylerpritchard/Desktop/VIT/itp_week_3/day_2.lecture.py')
+
 #RECAP:
 #You can view and modify a sheet's name with its "title" member variable.
 #Changing a cell's value is done using the square brackets, just like changing a value in a list or dictionary.
 #Changes you make to the workbook object can be saved with the save() method.
+
+# Since many office workers use Excel spreadsheets all the time, a program that can automatically edit and write Excel files could be really useful. Such a program could do the following:
+
+# Read data from one spreadsheet and write it to parts of other spreadsheets.
+# Read data from websites, text files, or the clipboard and write it to a spreadsheet.
+# Automatically “clean up” data in spreadsheets. For example, it could use regular expressions to read multiple formats of phone numbers and edit them to a single, standard format.
