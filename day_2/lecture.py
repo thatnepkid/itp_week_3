@@ -59,16 +59,26 @@ my_sheet.delete_cols(6, 3)
 my_sheet.move_range("D4:F10, rows=1, cols=2")
 #This will move the cells in the range D4:F10 up one row, and right two columns. The cells will overwrite any existing cells.
 
-
-
 #Review--> Access a cell value from the Excel sheet
 my_sheet['A1'].value  # Result is 'None' on a black Excel document
 
 #Review--> Change the value of a cell
 my_sheet['A1'] = 37
 my_sheet['A2'] = 'Pears'
+#Because we know that when we create a blank Excel document, the starting value is 'None', we can clear cell values by setting them to the Python keyword: None 
 
-#Because we know that when we create a blank Excel document, the starting value is 'None', we can clear cell values by setting them to 'None' 
+#How to create a NEW, EMPTY Excel document:
+from openpyxl import Workbook
+my_new_workbook = Workbook()
+#This workbook will always be created with one sheet, which can be accessed using Workbook.active property:
+my_new_worksheet = my_new_workbook.active  #  This value is set to 0 by default
+
+#How to create a NEW, EMPTY Excel document sheet:
+my_newest_worksheet1 = my_new_workbook.create_sheet("Mysheet")  # insert at the end of the sheets (default)
+#or
+my_newest_worksheet2 = my_new_workbook.create_sheet("Mysheet", 0)  # insert at first position
+#or
+my_newest_worksheet3 = my_new_workbook.create_sheet("Mysheet", -1)  # insert at penultimate position
 
 
 
